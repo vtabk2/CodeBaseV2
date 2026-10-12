@@ -22,7 +22,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.play.services.ads)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
 }
 

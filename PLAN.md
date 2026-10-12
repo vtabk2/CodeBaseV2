@@ -35,6 +35,69 @@
 
 ## Lịch sử công việc
 
+### Bổ sung ghi chú cho các biến cấu hình quảng cáo
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Thêm KDoc cho các biến public trong model placement, policy và kết quả quảng cáo.
+  - Ghi rõ đơn vị thời gian, giá trị mặc định và tác động của từng biến khi cấu hình từ IDE.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test; thay đổi chỉ bổ sung tài liệu trong mã nguồn.
+  - Kiểm tra `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `core/ads/src/main/java/com/core/ads/CoreAdConfig.kt`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Không thay đổi hành vi runtime; cải thiện khả năng sử dụng API cấu hình quảng cáo.
+
+### Bổ sung tài liệu sử dụng Core Ads
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Tạo tài liệu chi tiết trong `docs/` cho cấu hình placement, waterfall, cache, policy và Remote Config.
+  - Cập nhật `README.md` với hướng dẫn cài JitPack và ví dụ dùng `CoreActivity`/`CoreAdConfig`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test; chỉ thay đổi tài liệu.
+  - Kiểm tra liên kết, ví dụ Kotlin và `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `docs/core-ads.md`
+  - `README.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Tài liệu tích hợp thư viện Core, Core Ads và CoreActivity.
+
+### Tối ưu mô hình cấu hình quảng cáo theo CodeBase mẫu
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Tách cấu hình placement khỏi cấu hình policy dùng chung của quảng cáo full-screen.
+  - Hỗ trợ waterfall nhiều ad unit id, bật/tắt, preload, tự load lại sau dismiss và bỏ qua interval theo placement.
+  - Thêm policy retry chung, policy chống spam Interstitial, policy retry context của Rewarded và policy cooldown/reopen của App Open.
+  - Giữ cache quảng cáo theo cặp `adType + adUnitId`, không tạo request trùng khi nhiều placement dùng chung ID.
+  - Cho phép adapter Remote Config override thứ tự ưu tiên nhưng vẫn có fallback local.
+- **Unit test cần viết/chạy:**
+  - Viết unit test cho việc lọc/sắp xếp placement, waterfall và fallback policy thuần Kotlin.
+  - Đã thêm `core/ads/src/test/java/com/core/ads/CoreAdConfigTest.kt`.
+  - Đã thử chạy `:core:ads:testDebugUnitTest`, `:core:baseui:testDebugUnitTest`, `:app:assembleDebug` nhưng Gradle không tạo được loopback connection trong môi trường hiện tại; cần chạy lại trong Android Studio hoặc terminal máy local.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `core/ads/src/main/java/com/core/ads/CoreAdConfig.kt`
+  - `core/ads/src/main/java/com/core/ads/AdPreloadManager.kt`
+  - `core/baseui/src/main/java/com/core/baseui/CoreActivity.kt`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+  - `core/ads/src/test/`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Cấu hình, preload, cache và hiển thị Interstitial, Rewarded và App Open.
+
 ### Đổi coordinate JitPack của module core
 
 - **Ngày khởi tạo:** 2026-10-12
@@ -219,3 +282,60 @@
   - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
 - **Các tính năng có thể bị ảnh hưởng:**
   - Môi trường biên dịch Java của app và các module thư viện.
+
+### Thêm CoreActivity và preload quảng cáo ưu tiên
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Đối chiếu `CoreActivity`, `BaseActivity` và `ContextAds` của project mẫu `D:\Android\CodeTA\CodeBase`.
+  - Tạo `AdPreloadManager` singleton trong `:core:ads` để cache và preload tối đa hai interstitial cùng một rewarded.
+  - Ưu tiên nhóm Inter 1, Inter 2 và Reward; khởi động ba request song song để một request chậm không chặn các slot còn lại.
+  - Không load trùng, có timeout và tự nạp lại sau khi quảng cáo được sử dụng.
+  - Tạo `CoreActivity<VB>` trong `:core:baseui` dùng ViewBinding và cung cấp API show interstitial/rewarded.
+  - Cấu hình Google Mobile Ads dependency và ViewBinding cho các module cần thiết.
+  - Tích hợp `MainActivity` làm ví dụ sử dụng `CoreActivity`.
+- **Unit test cần viết/chạy:**
+  - Không thêm unit test JVM riêng vì logic phụ thuộc trực tiếp vào callback/SDK Google Mobile Ads; Gradle đã chạy các task unit test của hai module, hiện không có test source.
+  - `:core:ads:testDebugUnitTest`, `:core:baseui:testDebugUnitTest` và `:app:assembleDebug` — đạt.
+  - Không chạy connected test nếu không có emulator/device khả dụng.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `gradle/libs.versions.toml`
+  - `core/ads/build.gradle.kts`
+  - `core/ads/src/main/java/com/core/ads/AdPreloadManager.kt`
+  - `core/ads/src/main/java/com/core/ads/di/AdPreloadEntryPoint.kt`
+  - `core/baseui/build.gradle.kts`
+  - `core/baseui/src/main/java/com/core/baseui/CoreActivity.kt`
+  - `app/build.gradle.kts`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - API Activity dùng chung, preload/show quảng cáo interstitial và rewarded, thời gian hiển thị quảng cáo và build dependency của app.
+
+### Typed ad config và cache theo loại quảng cáo
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Thêm type cấu hình `INTERSTITIAL`, `REWARDED` và `APP_OPEN` cùng `adUnitId` và `priority`.
+  - Cho phép remote config override `priority`, giữ `priority` trong code làm fallback khi remote chưa có dữ liệu.
+  - Không buộc `:core` phụ thuộc Firebase; app tự triển khai adapter `CoreAdsRemoteConfig` cho Firebase Remote Config hoặc backend hiện có.
+  - Refactor cache theo khóa `type + adUnitId` thay vì cache cứng theo slot.
+  - Không tạo request trùng khi hai slot dùng cùng một ad unit ID.
+  - Bổ sung preload/show App Open dùng chung trong `AdPreloadManager`.
+  - Cập nhật app mẫu sang cấu hình typed ad.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test JVM riêng nếu logic vẫn phụ thuộc trực tiếp vào Google Mobile Ads SDK; chạy lại các task build/unit test hiện có.
+  - `:core:ads:testDebugUnitTest`, `:core:baseui:testDebugUnitTest` và `:app:assembleDebug` — đạt.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `core/ads/src/main/java/com/core/ads/CoreAdConfig.kt`
+  - `core/ads/src/main/java/com/core/ads/AdPreloadManager.kt`
+  - `core/baseui/src/main/java/com/core/baseui/CoreActivity.kt`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Cấu hình, preload và hiển thị Interstitial, Rewarded và App Open.
