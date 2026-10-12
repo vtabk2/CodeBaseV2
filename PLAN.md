@@ -35,6 +35,33 @@
 
 ## Lịch sử công việc
 
+### Nâng target SDK lên 37 và tích hợp Hilt
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Nâng `compileSdk` và `targetSdk` của module `:app` từ 36 lên 37.
+  - Khai báo Hilt và KSP trong version catalog, áp dụng plugin và dependency cho `:app`.
+  - Tạo `Application` khởi tạo Hilt, đăng ký trong manifest và bật injection cho `MainActivity`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test logic thuần Kotlin; đây là thay đổi build/runtime wiring.
+  - `:app:testDebugUnitTest` — đạt.
+  - `:app:assembleDebug` — đạt.
+  - Không chạy được `:app:connectedDebugAndroidTest` vì ADB server không khởi động được và không có emulator/device khả dụng.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `build.gradle.kts`
+  - `gradle/libs.versions.toml`
+  - `app/build.gradle.kts`
+  - `app/src/main/AndroidManifest.xml`
+  - `app/src/main/java/com/sabo/test/CodeBaseApplication.kt`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Biên dịch/target hành vi Android API 37.
+  - Khởi tạo dependency injection bằng Hilt cho application và activity.
+
 ### Thiết lập quy trình PLAN cho AI
 
 - **Ngày khởi tạo:** 2026-10-12
