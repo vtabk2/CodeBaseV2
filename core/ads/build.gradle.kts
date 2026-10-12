@@ -23,6 +23,8 @@ android {
 
 dependencies {
     implementation(libs.play.services.ads)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 

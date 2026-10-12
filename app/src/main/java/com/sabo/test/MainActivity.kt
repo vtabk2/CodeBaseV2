@@ -14,11 +14,23 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : CoreActivity<ActivityMainBinding>() {
+    /** Local fallback used until Firebase returns the combined full-screen placement list. */
+    private val fallbackCoreAdConfig = createFallbackCoreAdConfig()
+
     override fun createViewBinding(inflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(inflater)
     }
 
     override fun provideCoreAdConfig(): CoreAdConfig {
+        val remotePlacements = coreFirebaseAdsRemoteConfig?.getAdPlacements().orEmpty()
+        if (remotePlacements.isNotEmpty()) {
+            return fallbackCoreAdConfig.copy(placements = remotePlacements)
+        }
+        return fallbackCoreAdConfig
+    }
+
+    /** Keeps the sample usable before Firebase is configured or before its first successful fetch. */
+    private fun createFallbackCoreAdConfig(): CoreAdConfig {
         return CoreAdConfig(
             placements = listOf(
                 CoreAdPlacement(

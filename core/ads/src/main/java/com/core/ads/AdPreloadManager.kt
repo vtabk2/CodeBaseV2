@@ -82,7 +82,9 @@ class AdPreloadManager @Inject constructor(
         newRemoteConfig: CoreAdsRemoteConfig = CoreAdsRemoteConfig.EMPTY,
     ) {
         runOnMain {
-            if (config != newConfig) {
+            val configChanged = config != newConfig
+            val remoteConfigChanged = remoteConfig !== newRemoteConfig
+            if (configChanged || remoteConfigChanged) {
                 config = newConfig
                 configGeneration++
                 clearCache()

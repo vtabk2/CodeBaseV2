@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.core.ads.AdPreloadManager
+import com.core.ads.CodeBaseApplication
 import com.core.ads.CoreAdConfig
 import com.core.ads.CoreAdsRemoteConfig
 import com.core.ads.CoreRewardResult
+import com.core.ads.FirebaseAdsRemoteConfig
 import com.core.ads.di.AdPreloadEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 
@@ -23,6 +25,10 @@ abstract class CoreActivity<VB : ViewBinding> : AppCompatActivity() {
     protected val binding: VB
         get() = _binding ?: error("Binding is only available between onCreate and onDestroy")
 
+    /** Application-created Remote Config adapter shared by all Activities in the process. */
+    protected val coreFirebaseAdsRemoteConfig: FirebaseAdsRemoteConfig?
+        get() = (application as? CodeBaseApplication)?.firebaseAdsRemoteConfig
+
     private val adPreloadManager: AdPreloadManager by lazy {
         EntryPointAccessors.fromApplication(
             applicationContext,
@@ -35,13 +41,20 @@ abstract class CoreActivity<VB : ViewBinding> : AppCompatActivity() {
     protected open fun provideCoreAdConfig(): CoreAdConfig = CoreAdConfig()
 
     protected open fun provideCoreAdsRemoteConfig(): CoreAdsRemoteConfig =
-        CoreAdsRemoteConfig.EMPTY
+        coreFirebaseAdsRemoteConfig ?: CoreAdsRemoteConfig.EMPTY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = createViewBinding(layoutInflater)
         setContentView(binding.root)
-        adPreloadManager.preload(provideCoreAdConfig(), provideCoreAdsRemoteConfig())
+        val remoteConfig = provideCoreAdsRemoteConfig()
+        adPreloadManager.preload(provideCoreAdConfig(), remoteConfig)
+        (remoteConfig as? FirebaseAdsRemoteConfig)?.fetchAndActivate {
+            // Refresh the preload after the application-wide adapter activates remote placements.
+            if (!isFinishing && !isDestroyed) {
+                preloadCoreAds()
+            }
+        }
         onViewReady(savedInstanceState)
     }
 

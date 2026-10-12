@@ -46,7 +46,7 @@ override fun provideCoreAdConfig(): CoreAdConfig {
 }
 ```
 
-Cache được chia theo `adType + adUnitId`, nên nhiều placement dùng chung một ID sẽ không load trùng. Có thể cấu hình retry, cooldown, giới hạn Interstitial theo session và ưu tiên từ Remote Config. Xem hướng dẫn đầy đủ tại [docs/core-ads.md](docs/core-ads.md).
+Cache được chia theo `adType + adUnitId`, nên nhiều placement dùng chung một ID sẽ không load trùng. Có thể cấu hình retry, cooldown, giới hạn Interstitial theo session và priority từ Firebase Remote Config; xem hướng dẫn đầy đủ tại [docs/core-ads.md](docs/core-ads.md).
 
 Nếu dùng Hilt, Application của app sử dụng thư viện cần kế thừa base class trong `ads`:
 

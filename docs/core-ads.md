@@ -185,3 +185,86 @@ override fun provideCoreAdsRemoteConfig(): CoreAdsRemoteConfig {
 ```
 
 Nếu Remote Config trả về `null`, thứ tự local trong `priority` và `adUnitIds` được giữ nguyên.
+
+### Firebase Remote Config
+
+Ứng dụng dùng Firebase Remote Config qua `com.core.ads.FirebaseAdsRemoteConfig`. Adapter nằm
+trong `:core:ads`, tự đọc danh sách placement từ Firebase và chuyển thành `CoreAdPlacement` để
+mọi app dùng thư viện có thể tái sử dụng cùng logic.
+
+Tạo hai parameter trong Firebase Console. Quảng cáo full-screen Interstitial và Rewarded nằm
+chung trong một JSON array:
+
+- `rewarded__rewarded_inter__inter_ad_places`
+- `app_open_ad_places`
+
+```json
+[
+  {
+    "place_name": "home_inter_primary",
+    "ad_id": "ca-app-pub-xxx/inter-primary",
+    "high_floor_ad_ids": ["ca-app-pub-xxx/inter-fallback"],
+    "ad_type": "interstitial",
+    "is_enable": true,
+    "priority": 0
+  },
+  {
+    "place_name": "unlock_rewarded",
+    "ad_id": "ca-app-pub-xxx/rewarded",
+    "ad_type": "rewarded",
+    "is_enable": true,
+    "priority": 0
+  }
+]
+```
+
+`app_open_ad_places` dùng cùng cấu trúc nhưng chứa các object có `ad_type` là `app_open`.
+Các trường được adapter đọc gồm `place_name`, `ad_id`, `high_floor_ad_ids`, `ad_type`,
+`is_enable`, `is_preload`, `priority`, `is_auto_load_after_dismiss`, `is_tutorial_flow`,
+`is_tracking_click`, `is_tracking_show` và `plus_interval`.
+
+Khai báo adapter một lần bằng Hilt `@Provides @Singleton`. `CodeBaseApplication` lấy binding này
+sớm trong lifecycle, còn `CoreActivity` tự dùng instance, preload local fallback trước, fetch Firebase
+và preload lại sau khi Remote Config activate:
+
+```kotlin
+@HiltAndroidApp
+class AppApplication : CodeBaseApplication()
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AdsModule {
+    @Provides
+    @Singleton
+    fun provideFirebaseAdsRemoteConfig(@ApplicationContext context: Context): FirebaseAdsRemoteConfig {
+        val isDebuggable = context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        val interval = if (isDebuggable) {
+            FirebaseAdsRemoteConfig.DEBUG_MINIMUM_FETCH_INTERVAL_SECONDS
+        } else {
+            FirebaseAdsRemoteConfig.DEFAULT_MINIMUM_FETCH_INTERVAL_SECONDS
+        }
+        return FirebaseAdsRemoteConfig(interval)
+    }
+}
+```
+
+`FirebaseAdsRemoteConfig.getAdPlacements()` trả về danh sách đã parse nếu Activity cần tự xây
+`CoreAdConfig`. Trong mẫu app, `MainActivity` chỉ đọc danh sách từ `CoreActivity` và dùng cấu hình
+local khi Firebase chưa có dữ liệu; Activity không tự khởi tạo adapter.
+
+`core:ads` đã khai báo Firebase Android BoM và `firebase-config`. Đặt `google-services.json` tại thư mục
+`app/` của ứng dụng tiêu thụ thư viện; build script sẽ tự bật Google services plugin khi file này tồn tại. Nếu chưa cấu hình
+Firebase, adapter tự fallback về priority local và không làm crash app.
+
+Giá trị fallback được khai báo theo cùng cấu trúc với project `CodeBase` tại
+[`core/ads/src/main/res/xml/remote_config_defaults.xml`](../core/ads/src/main/res/xml/remote_config_defaults.xml).
+Root XML dùng `<defaults>`, mỗi `<entry>` là một parameter và JSON nằm trong `<value>`.
+Đây không phải dữ liệu Remote Config production; file chỉ được dùng trước khi Firebase fetch thành công
+hoặc khi Firebase chưa được cấu hình. Ứng dụng dùng JitPack có thể tạo resource cùng tên trong
+`app/src/main/res/xml/remote_config_defaults.xml` để ghi đè bộ default cho app đó.
+
+Fetch interval được quyết định ở Hilt module của app tiêu thụ thư viện bằng
+`ApplicationInfo.FLAG_DEBUGGABLE`, không import `BuildConfig` của app vào thư viện/AAR JitPack.
+Cách này đọc đúng variant đang chạy và không phụ thuộc package của app. Khuyến nghị dùng
+`debug = 0` giây để test lấy cấu hình mới ngay và `release = 3.600` giây để hạn chế request
+không cần thiết.

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Firebase Remote Config in-app defaults.
+    Values from Firebase Console override these defaults after fetchAndActivate().
+    The JSON is kept as a string because the Firebase parameter itself is JSON text.
+-->
+<defaults>
+    <entry>
+        <key>rewarded__rewarded_inter__inter_ad_places</key>
+        <value>
+            [
+            {
+            "place_name": "home_inter_primary",
+            "ad_id": "ca-app-pub-3940256099942544/1033173712",
+            "ad_type": "interstitial",
+            "is_enable": true,
+            "priority": 0
+            },
+            {
+            "place_name": "home_inter_secondary",
+            "ad_id": "ca-app-pub-3940256099942544/1033173712",
+            "ad_type": "interstitial",
+            "is_enable": true,
+            "priority": 1
+            },
+            {
+            "place_name": "unlock_rewarded",
+            "ad_id": "ca-app-pub-3940256099942544/5224354917",
+            "ad_type": "rewarded",
+            "is_enable": true,
+            "priority": 0
+            }
+            ]
+        </value>
+    </entry>
+    <entry>
+        <key>app_open_ad_places</key>
+        <value>
+            [
+            {
+            "place_name": "app_open",
+            "ad_id": "ca-app-pub-3940256099942544/9257395921",
+            "ad_type": "app_open",
+            "is_enable": true,
+            "priority": 0
+            }
+            ]
+        </value>
+    </entry>
+</defaults>
