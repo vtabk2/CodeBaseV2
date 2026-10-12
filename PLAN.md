@@ -180,3 +180,42 @@
 - **Các tính năng có thể bị ảnh hưởng:**
   - Không ảnh hưởng hành vi runtime của ứng dụng.
   - Ảnh hưởng quy trình AI trước và trong khi sửa code.
+
+### Chuẩn hóa ViewBinding, KSP và Hilt cho skill Android
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Bổ sung vào hướng dẫn project rằng UI XML phải ưu tiên ViewBinding.
+  - Bổ sung quy ước dùng KSP cho code generation/annotation processing, không dùng `kapt` nếu không có yêu cầu đặc biệt.
+  - Bổ sung quy ước dùng Hilt cho dependency injection và khai báo compiler qua KSP.
+  - Đồng bộ các quy ước trên vào skill `codebasev2-android`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test logic thuần Kotlin; chỉ thay đổi tài liệu/quy ước của agent.
+  - Kiểm tra thủ công `git diff` và `git status --short`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `AGENTS.md`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Quy trình triển khai UI XML, annotation processing và dependency injection trong các thay đổi Android sau này.
+
+### Chuẩn hóa Java 17 cho project và skill Android
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Cập nhật tài liệu project và skill Android dùng Java source/target 17.
+  - Đối chiếu cấu hình Gradle của `:app`, `:core`, `:core:ads` và `:core:baseui`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test logic thuần Kotlin; chạy kiểm tra cấu hình và `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `AGENTS.md`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Môi trường biên dịch Java của app và các module thư viện.

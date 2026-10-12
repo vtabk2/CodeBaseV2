@@ -13,8 +13,11 @@
 - Project có một module ứng dụng (`:app`) và module thư viện cha `:core` với hai module con `:core:ads`, `:core:baseui`.
 - Dùng Kotlin, Gradle Kotlin DSL và version catalog tại `gradle/libs.versions.toml`.
 - UI hiện dùng XML, AppCompat, Material và ConstraintLayout; không tự chuyển sang Jetpack Compose nếu chưa được yêu cầu.
+- Với layout XML, bật và sử dụng ViewBinding; không dùng Kotlin synthetics hoặc `findViewById` khi binding có thể đáp ứng.
+- Dùng KSP cho code generation/annotation processing; không thêm `kapt` hoặc `kotlin-kapt` nếu chưa có yêu cầu tương thích cụ thể.
+- Dùng Hilt cho dependency injection; module có Hilt phải khai báo compiler qua KSP và application Hilt phải dùng `@HiltAndroidApp` ở module ứng dụng.
 - Namespace/application ID: `com.sabo.test`.
-- Compile/target SDK: 36; min SDK: 24; Java source/target: 11.
+- Compile/target SDK: 37; min SDK: 24; Java source/target: 17.
 - Unit test đặt trong `app/src/test`; instrumentation/UI test đặt trong `app/src/androidTest`.
 - Dependency phải khai báo trong `gradle/libs.versions.toml`, sau đó tham chiếu alias trong `app/build.gradle.kts`.
 
