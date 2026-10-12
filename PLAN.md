@@ -35,6 +35,67 @@
 
 ## Lịch sử công việc
 
+### Đổi coordinate JitPack của module core
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Đổi publication của `:core` từ artifact `core` sang artifact `CodeBaseV2`.
+  - Giữ group là `com.github.vtabk2` để dependency dùng được dạng `com.github.vtabk2:CodeBaseV2:1.0.0`.
+  - Cập nhật README và convention JitPack.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test logic thuần Kotlin; chạy publish release tới Maven Local để kiểm tra coordinate.
+  - `:core:publishReleasePublicationToMavenLocal` — đạt.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `build.gradle.kts`
+  - `README.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Coordinate dependency JitPack của thư viện cha `core`.
+
+### Thêm module core và hai module con cho JitPack
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Đăng ký `:core`, `:core:ads` và `:core:baseui` trong Gradle settings.
+  - Cấu hình `:core` là Android Library cha, kéo theo `ads` và `baseui` bằng dependency `api`.
+  - Cấu hình ba module Android Library xuất bản release AAR bằng `maven-publish` cho JitPack.
+  - Để `:app` dùng `project(":core")` thay vì gọi trực tiếp module con.
+  - Chuyển `CodeBaseApplication` sang `:core:ads` theo yêu cầu.
+  - Vì Hilt không cho `@HiltAndroidApp` trong Android Library, giữ `CodeBaseApplication` làm base class và tạo `AppApplication` Hilt root trong `:app`.
+  - Đặt group/version theo repository GitHub và thêm cấu hình JDK 17 cho môi trường JitPack.
+  - Ghi cách dùng dependency JitPack vào README và cập nhật tài liệu cấu trúc module.
+  - Đối chiếu convention publishing/JitPack với repo mẫu `D:\Android\CodeTA\CodeBase`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test logic thuần Kotlin; thay đổi chỉ là module/build/publishing wiring.
+  - `:core:ads:assembleRelease`, `:core:baseui:assembleRelease`, `:core:assembleRelease`, `:app:assembleDebug` — đạt.
+  - `publishReleasePublicationToMavenLocal` cho cả ba module — đạt.
+  - Không chạy connected test vì môi trường không có ADB/emulator khả dụng.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `AGENTS.md`
+  - `settings.gradle.kts`
+  - `build.gradle.kts`
+  - `gradle/libs.versions.toml`
+  - `app/build.gradle.kts`
+  - `app/src/main/java/com/sabo/test/CodeBaseApplication.kt`
+  - `app/src/main/java/com/sabo/test/AppApplication.kt`
+  - `core/build.gradle.kts`
+  - `core/ads/build.gradle.kts`
+  - `core/ads/src/main/java/com/core/ads/CodeBaseApplication.kt`
+  - `core/baseui/build.gradle.kts`
+  - `jitpack.yml`
+  - `README.md`
+  - `.gitignore`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Build/publishing AAR của `core`, `ads` và `baseui`.
+  - Ứng dụng mẫu sử dụng dependency cha `com.github.vtabk2.CodeBaseV2:core:1.0.0`.
+
 ### Nâng target SDK lên 37 và tích hợp Hilt
 
 - **Ngày khởi tạo:** 2026-10-12

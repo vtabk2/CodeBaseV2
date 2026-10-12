@@ -10,7 +10,7 @@
 
 ## Quy ước Android của project
 
-- Project hiện có một module ứng dụng: `:app`.
+- Project có một module ứng dụng (`:app`) và module thư viện cha `:core` với hai module con `:core:ads`, `:core:baseui`.
 - Dùng Kotlin, Gradle Kotlin DSL và version catalog tại `gradle/libs.versions.toml`.
 - UI hiện dùng XML, AppCompat, Material và ConstraintLayout; không tự chuyển sang Jetpack Compose nếu chưa được yêu cầu.
 - Namespace/application ID: `com.sabo.test`.
