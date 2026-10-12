@@ -56,9 +56,54 @@ class MainActivity : CoreActivity<ActivityMainBinding>() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.showInterstitialButton.setOnClickListener {
+            updateStatus(getString(R.string.ads_status_loading_interstitial))
+            showInterstitial(placement = INTERSTITIAL_PLACEMENT) { isShown ->
+                updateStatus(
+                    getString(
+                        R.string.ads_status_interstitial_result,
+                        getString(if (isShown) R.string.ads_status_shown else R.string.ads_status_not_shown),
+                    ),
+                )
+            }
+        }
+
+        binding.showRewardedButton.setOnClickListener {
+            updateStatus(getString(R.string.ads_status_loading_rewarded))
+            showRewarded { result ->
+                updateStatus(
+                    getString(
+                        R.string.ads_status_rewarded_result,
+                        getString(if (result.isShown) R.string.ads_status_shown else R.string.ads_status_not_shown),
+                        getString(if (result.isEarned) R.string.ads_status_earned else R.string.ads_status_not_earned),
+                    ),
+                )
+            }
+        }
+
+        binding.showAppOpenButton.setOnClickListener {
+            updateStatus(getString(R.string.ads_status_loading_app_open))
+            showAppOpen { isShown ->
+                updateStatus(
+                    getString(
+                        R.string.ads_status_app_open_result,
+                        getString(if (isShown) R.string.ads_status_shown else R.string.ads_status_not_shown),
+                    ),
+                )
+            }
+        }
+    }
+
+    /** Updates the visible result so a tester can verify the SDK callback on a real device. */
+    private fun updateStatus(message: String) {
+        binding.statusText.text = message
     }
 
     private companion object {
+        // The first interstitial placement is intentionally selected for the manual test button.
+        const val INTERSTITIAL_PLACEMENT = "home_inter_primary"
+
         // Google test IDs. Replace these in the consuming app before release.
         const val TEST_INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712"
         const val TEST_REWARDED_ID = "ca-app-pub-3940256099942544/5224354917"

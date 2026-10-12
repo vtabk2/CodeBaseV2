@@ -35,6 +35,149 @@
 
 ## Lịch sử công việc
 
+### Use English status terms in Android skill
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Replace the Vietnamese status labels in the skill wording with the English equivalents `completed`, `paused`, and `abandoned`.
+  - Keep the repository's existing `PLAN.md` status values unchanged.
+- **Unit test cần viết/chạy:**
+  - No unit test; this is a documentation-only change.
+  - Check the skill text and run `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - None at runtime; only agent guidance wording changes.
+
+### Refine English wording in Android skill
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Rewrite the work-item completion instruction in clear English while preserving the exact Vietnamese status values required by `PLAN.md`.
+- **Unit test cần viết/chạy:**
+  - No unit test; this is a documentation-only change.
+  - Check the skill text and run `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - None at runtime; only agent guidance wording changes.
+
+### Tái cấu trúc skill Android theo nhóm quy tắc
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Sắp xếp lại skill thành các nhóm: phạm vi, baseline project, UI/resource, build/dependency, workflow, kiểm thử và giới hạn thay đổi.
+  - Giữ nguyên các quy tắc đã thống nhất nhưng loại bỏ cảm giác rải rác và trùng ý.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test; chỉ thay đổi hướng dẫn của agent.
+  - Chạy validator của skill nếu có và kiểm tra `git diff --check`.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Cách agent lựa chọn widget, resource, dependency, quy trình sửa code và kiểm thử Android.
+
+### Chuẩn hóa resource cho text và color UI
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Chuyển text hiển thị trong XML và Kotlin của màn hình test quảng cáo sang `res/values/strings.xml`.
+  - Chuyển trạng thái động của callback quảng cáo sang string resource có placeholder.
+  - Quy định mọi color UI phải khai báo trong `res/values/colors.xml`, không hard-code trong XML hoặc Kotlin.
+  - Cập nhật skill Android để giữ quy ước này cho các thay đổi sau.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test JVM; thay đổi chỉ là resource và UI wiring.
+  - Kiểm tra `git diff --check`; chạy `:app:assembleDebug` nếu môi trường Gradle hoạt động.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `app/src/main/res/values/strings.xml`
+  - `app/src/main/res/values/colors.xml`
+  - `app/src/main/res/layout/activity_main.xml`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+  - `app/src/debug/res/layout/activity_ads_ui_test.xml`
+  - `app/src/debug/java/com/sabo/test/AdsUiTestActivity.kt`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Nội dung hiển thị và trạng thái kiểm tra của màn hình quảng cáo mẫu.
+
+### Chuẩn hóa widget XML sang AppCompat trong skill Android
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Bổ sung vào skill quy ước ưu tiên `AppCompatTextView`, `AppCompatButton` và `AppCompatImageView` thay cho widget nền tảng `TextView`, `Button`, `ImageView` trong XML.
+  - Chuyển các widget tương ứng trong giao diện test quảng cáo hiện tại sang bản AppCompat.
+  - Bổ sung quy ước ưu tiên `NestedScrollView` thay cho `ScrollView` và áp dụng cho giao diện test hiện tại.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test JVM; thay đổi là quy ước UI và class widget XML.
+  - Kiểm tra `git diff --check`; chạy `:app:assembleDebug` nếu môi trường Gradle hoạt động.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `app/src/main/res/layout/activity_main.xml`
+  - `C:\Users\Tuan Anh\.codex\skills\codebasev2-android\SKILL.md`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Khả năng tương thích theme và hiển thị các control trong màn hình test quảng cáo.
+
+### Thêm giao diện test quảng cáo vào MainActivity
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Thay màn hình mẫu bằng giao diện có nút thật để gọi Interstitial, Rewarded và App Open.
+  - Hiển thị trạng thái callback để kiểm tra nhanh việc load/show quảng cáo trên emulator hoặc thiết bị.
+  - Giữ nguyên các placement và test ad unit ID đang có trong `MainActivity`.
+- **Unit test cần viết/chạy:**
+  - Không phát sinh unit test JVM; thay đổi chủ yếu là UI wiring và callback của SDK quảng cáo.
+  - Đã thử `:app:assembleDebug`, nhưng Gradle không tạo được loopback connection trong môi trường hiện tại; cần chạy lại trên máy có Gradle daemon hoạt động bình thường.
+  - `:app:connectedDebugAndroidTest` cần emulator/device nên chưa chạy trong lượt này.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `app/src/main/res/layout/activity_main.xml`
+  - `app/src/main/java/com/sabo/test/MainActivity.kt`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - Màn hình mẫu dùng để kiểm tra thủ công Interstitial, Rewarded và App Open.
+
+### Thêm UI test cho các luồng quảng cáo full-screen
+
+- **Ngày khởi tạo:** 2026-10-12
+- **Ngày thực hiện:** 2026-10-12
+- **Ngày hoàn thành:** 2026-10-12
+- **Trạng thái:** `hoàn thành`
+- **Công việc chi tiết cần thực hiện:**
+  - Thêm Activity debug-only làm test host cho `CoreActivity` và ba API Interstitial, Rewarded, App Open.
+  - Dùng cấu hình rỗng để kiểm tra nhánh không có cache, không phụ thuộc mạng/quảng cáo thật.
+  - Viết instrumentation test mở Activity, kiểm tra UI, bấm từng nút và xác nhận callback không hiển thị quảng cáo.
+- **Unit test cần viết/chạy:**
+  - `:app:connectedDebugAndroidTest` nếu có emulator/device.
+  - Đã thêm `app/src/androidTest/java/com/sabo/test/AdsUiTest.kt`.
+  - Đã thử compile `:app:compileDebugKotlin` và `:app:compileDebugAndroidTestKotlin`, nhưng Gradle không tạo được loopback connection trong môi trường hiện tại; chưa thể chạy connected test nếu không có emulator/device.
+- **Các file ảnh hưởng:**
+  - `PLAN.md`
+  - `gradle/libs.versions.toml`
+  - `app/build.gradle.kts`
+  - `app/src/debug/`
+  - `app/src/androidTest/`
+- **Các tính năng có thể bị ảnh hưởng:**
+  - UI test và nhánh fallback khi Interstitial, Rewarded hoặc App Open chưa có cache.
+
 ### Bổ sung ghi chú cho các biến cấu hình quảng cáo
 
 - **Ngày khởi tạo:** 2026-10-12

@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="ads_test_title">CodeBaseV2 Ads Test</string>
+    <string name="ads_test_description">Dùng Google test ad unit IDs để kiểm tra cache và callback</string>
+    <string name="ads_show_interstitial">Show Interstitial</string>
+    <string name="ads_show_rewarded">Show Rewarded</string>
+    <string name="ads_show_app_open">Show App Open</string>
+    <string name="ads_status_ready">Sẵn sàng</string>
+    <string name="ads_status_loading_interstitial">Đang tải Interstitial...</string>
+    <string name="ads_status_loading_rewarded">Đang tải Rewarded...</string>
+    <string name="ads_status_loading_app_open">Đang tải App Open...</string>
+    <string name="ads_status_shown">đã hiển thị</string>
+    <string name="ads_status_not_shown">chưa hiển thị</string>
+    <string name="ads_status_earned">có</string>
+    <string name="ads_status_not_earned">không</string>
+    <string name="ads_status_interstitial_result">Interstitial: %1$s</string>
+    <string name="ads_status_rewarded_result">Rewarded: %1$s, nhận thưởng: %2$s</string>
+    <string name="ads_status_app_open_result">App Open: %1$s</string>
+    <string name="ads_test_status_interstitial">interstitial:%1$s</string>
+    <string name="ads_test_status_rewarded">rewarded:%1$s:%2$s</string>
+    <string name="ads_test_status_app_open">app_open:%1$s</string>
 </resources>
